@@ -47,14 +47,13 @@ export default class App extends React.Component<any, IAppStates> {
     handleAddTodo(newTodo: string) {
         const newTodoObj: any = new TodoItem(newTodo) //
         axios.post(this.props.url, newTodoObj)
-            .then((res: any): any => {
+            .catch((err:any):any => {
+             console.error(err)
                 this.setState({
-                    todosData: [...this.state.todosData, res]
-                })  /** NEED HELP!!! DOWN WITH CATCH **/
-                    // .catch((err: any): void => {
-                    //     return console.log(err)
-                    // })
-            })
+                    todosData: [...this.state.todosData, newTodoObj]
+                })
+        })
+
 
         // this.setState({
         //     todosData: [...this.state.todosData, newTodo]
@@ -98,6 +97,7 @@ export default class App extends React.Component<any, IAppStates> {
 
     componentDidMount() {
         this.loadTodosDataFromServer();
+        setInterval(this.loadTodosDataFromServer, this.props.pollInterval)
     }
 
   render() {

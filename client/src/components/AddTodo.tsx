@@ -24,9 +24,7 @@ export default class AddTodo extends Component<any, any> {
 
     render() {
         return (<div>
-            <form action="/" method="post">
             <input onChange={(e: any) => this.handleChange(e)} onKeyDown={(e: any) => this.handlePassTodo(e)} placeholder="Add todo" />
-            </form>
         </div>)
     }
 }

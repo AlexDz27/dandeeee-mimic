@@ -8,7 +8,7 @@ exports.all_todos = (req, res, next) => {
     })
 }
 
-exports.create_todo = (req, res, ext) => {
+exports.create_todo = (req, res) => {
     const newTodo = new Todo({
         title: req.body.title,
         isDone: false
@@ -16,6 +16,6 @@ exports.create_todo = (req, res, ext) => {
     newTodo.save(err => {
         if (err) res.send(err)
 
-        res.json(newTodo)
+        res.json({msg: "Addded", obj: newTodo})
     })
 }
