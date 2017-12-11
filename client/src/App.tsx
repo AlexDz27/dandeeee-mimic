@@ -36,7 +36,6 @@ export default class App extends React.Component<any, IAppStates> {
         };
 
         this.loadTodosDataFromServer = this.loadTodosDataFromServer.bind(this);
-        this.handleAddTodo = this.handleAddTodo.bind(this);
     }
  
     // handleChange(e: any) {
@@ -45,12 +44,13 @@ export default class App extends React.Component<any, IAppStates> {
     //     })
     // }
 
-    handleAddTodo(newTodo: any) {
-        axios.post(this.props.url, newTodo)
+    handleAddTodo(newTodo: string) {
+        const newTodoObj: any = new TodoItem(newTodo) //
+        axios.post(this.props.url, newTodoObj)
             .then((res: any): any => {
                 this.setState({
                     todosData: [...this.state.todosData, res]
-                })
+                })  /** NEED HELP!!! DOWN WITH CATCH **/
                     // .catch((err: any): void => {
                     //     return console.log(err)
                     // })
@@ -61,16 +61,23 @@ export default class App extends React.Component<any, IAppStates> {
         // })
     }
 
-    /**  (!) todoItem here is oneTodoData prop from TodoItem component **/
+    /**  (!) todoItem here is oneTodoData prop from TodoItem component
+     *
+     */
     handleTodoToggle(todoItem: TodoItem) { //todo: add type (there must be boolean type cuz i am passing bool value, not object as D does)
-        const {todosData} = this.state;
-        const todoItemPosition: number = todosData.findIndex((t: any) => t.title === todoItem.title);
-        todoItem.isDone = !todoItem.isDone;
-        console.log(todoItemPosition);
-        const newTodosData = todosData.map((t, i) => i === todoItemPosition ? todoItem : t);
+        /**
+        // const {todosData} = this.state;
+        // console.log(todosData);
+        // const todoItemPosition: number = todosData.findIndex((t: any) => t.title === todoItem.title);
+        // const newTodosData = todosData.map((t, i) => i === todoItemPosition ? todoItem : t);
+         **/
 
+        todoItem.isDone = !todoItem.isDone; /** (!!!) **/
+        /** (!)
+         * Как-то обошелся без findIndex, хз правильно ли это. Но всё работает, как надо.
+         **/
         this.setState({
-            todosData: newTodosData
+            todosData: this.state.todosData
         })
     }
 

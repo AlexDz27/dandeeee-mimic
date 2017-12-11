@@ -10,14 +10,6 @@ interface IFooterProps {
 }
 
 export default class Footer extends Component<IFooterProps, any> {
-    constructor(props: IFooterProps) {
-        super(props);
-
-        this.state = {
-            filter: TodoFilter.ALL
-        }
-    }
-
     render() {
         const {todosData, filter, onFilterChange} = this.props;
         const completedTodos = todosData.filter(todo => todo.isDone);

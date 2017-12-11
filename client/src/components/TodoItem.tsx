@@ -8,26 +8,18 @@ export interface ITodoItemStates {
 
 
 export default class TodoItem extends Component<ITodoItemProps, ITodoItemStates> {
-    constructor(props: ITodoItemProps) {
-        super(props);
-
-        this.state = {
-            isDone: false
-        }
-    }
-
     toggleTodoItem() {
         const {oneTodoData, onTodoToggle} = this.props;
         onTodoToggle(oneTodoData)
     }
 
     render() {
-        const {todoTitle} = this.props;
+        const {oneTodoData} = this.props;
 
         return(
             <div className="TodoItem">
-                <input onClick={() => this.toggleTodoItem()} type="checkbox"/>
-                <li>{todoTitle}</li>
+                <input onChange={() => this.toggleTodoItem()} checked={oneTodoData.isDone} type="checkbox"/>
+                <li>{oneTodoData.title}</li>
             </div>
         )
     }

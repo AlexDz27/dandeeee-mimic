@@ -13,8 +13,6 @@ interface IAllTodosProps {
 }
 
 export interface ITodoItemProps {
-    todoTitle: string,
-    todoIsDone: boolean,
     onTodoToggle: Function,
     oneTodoData: any
 }
@@ -35,7 +33,7 @@ export default class AllTodos extends Component<any, IAllTodosProps> {
                 (filter === TodoFilter.DONE && item.isDone == true)
             )
         })
-        const TodoItemTemplate = filtered.map((item: any, index: number) => <TodoItem key={index} oneTodoData={item} todoTitle={item.title} todoIsDone={item.isDone}  onTodoToggle={(todoItem: TodoItem) => onTodoToggle(todoItem)} />)
+        const TodoItemTemplate = filtered.map((item: any, index: number) => <TodoItem key={index} oneTodoData={item} onTodoToggle={(todoItem: TodoItem) => onTodoToggle(todoItem)} />)
 
         return(<ul className="AllTodos">
             {TodoItemTemplate}
