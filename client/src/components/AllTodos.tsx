@@ -8,11 +8,14 @@ import {TodoFilter} from "../App";
 
 interface IAllTodosProps {
     todosData: Array<any>,
-    filter: TodoFilter
+    filter: TodoFilter,
+    onTodoToggle: Function
 }
 
 export interface ITodoItemProps {
-    todoTitle: string
+    todoTitle: string,
+    todoIsDone: boolean,
+    onTodoToggle: Function
 }
 
 export default class AllTodos extends Component<any, IAllTodosProps> {
@@ -20,8 +23,9 @@ export default class AllTodos extends Component<any, IAllTodosProps> {
         super(props)
     }
 
+
     render() {
-        const {todosData, filter = TodoFilter.ALL} = this.props;
+        const {todosData, filter = TodoFilter.ALL, onTodoToggle} = this.props;
 
         const filtered = todosData.filter((item: any) => {
             return(
@@ -30,9 +34,8 @@ export default class AllTodos extends Component<any, IAllTodosProps> {
                 (filter === TodoFilter.DONE && item.isDone == true)
             )
         })
-        const TodoItemTemplate = filtered.map((item: any, index: number) => <TodoItem key={index} todoTitle={item.title}/>)
+        const TodoItemTemplate = filtered.map((item: any, index: number) => <TodoItem key={index} todoTitle={item.title} todoIsDone={item.isDone}  onTodoToggle={(todoItem: TodoItem) => onTodoToggle(todoItem)} />)
 
-        // const TodoItemTemplate = todosData.map((item: any, index: number) => <TodoItem key={index} todoTitle={item.title} />)
         return(<ul className="AllTodos">
             {TodoItemTemplate}
             </ul>)

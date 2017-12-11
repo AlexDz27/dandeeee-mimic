@@ -10,10 +10,19 @@ import axios from 'axios';
 
 export enum TodoFilter {ALL, DONE, TODO}
 
+class TodoItem {
+    title: string
+    isDone?: boolean = false
+
+    constructor(todoName: string) {
+        this.title = todoName
+    }
+}
+
 interface IAppStates {
-    todosData: Array<any>,
+    todosData: Array<TodoItem>,
     filter: TodoFilter,
-    newTodo: any
+    newTodo: string
 }
 
 export default class App extends React.Component<any, IAppStates> {
@@ -36,18 +45,31 @@ export default class App extends React.Component<any, IAppStates> {
     //     })
     // }
 
-    handleAddTodo(newTodo: any): any {
+    handleAddTodo(newTodo: any) {
         axios.post(this.props.url, newTodo)
             .then((res: any): any => {
                 this.setState({
-                    todosData: res
+                    todosData: [...this.state.todosData, res]
                 })
-                    .catch((err: any): any => console.error(err))
+                    // .catch((err: any): void => {
+                    //     return console.log(err)
+                    // })
             })
 
         // this.setState({
         //     todosData: [...this.state.todosData, newTodo]
         // })
+    }
+
+    handleTodoToggle(todoItem: TodoItem) { //todo: add type (there must be boolean type cuz i am passing bool value, not object as D does)
+        todoItem = !todoItem;
+
+    }
+
+    handleFilterChange(newFilter: TodoFilter) {
+        this.setState({
+            filter: newFilter
+        })
     }
 
     loadTodosDataFromServer() {
@@ -67,11 +89,11 @@ export default class App extends React.Component<any, IAppStates> {
         const {todosData, filter} = this.state;
     return (
       <div className="App">
-        <Header/>
+        <Header todosData={todosData} />
         <TodosPane>
           <AddTodo onAddTodo={(newTodo: any) => this.handleAddTodo(newTodo)} />
-          <AllTodos todosData={todosData} filter={filter} />
-          <Footer todosData={todosData} filter={filter} />
+          <AllTodos todosData={todosData} filter={filter} onTodoToggle={(todoItem: TodoItem) => this.handleTodoToggle(todoItem)} />
+          <Footer todosData={todosData} filter={filter} onFilterChange={(newFilter: TodoFilter) => this.handleFilterChange(newFilter)} />
         </TodosPane>
       </div>
     );
