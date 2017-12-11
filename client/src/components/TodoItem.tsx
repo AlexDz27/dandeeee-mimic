@@ -17,8 +17,8 @@ export default class TodoItem extends Component<ITodoItemProps, ITodoItemStates>
     }
 
     toggleTodoItem() {
-        const {todoIsDone, onTodoToggle} = this.props;
-        onTodoToggle(todoIsDone)
+        const {oneTodoData, onTodoToggle} = this.props;
+        onTodoToggle(oneTodoData)
     }
 
     render() {

@@ -61,9 +61,17 @@ export default class App extends React.Component<any, IAppStates> {
         // })
     }
 
+    /**  (!) todoItem here is oneTodoData prop from TodoItem component **/
     handleTodoToggle(todoItem: TodoItem) { //todo: add type (there must be boolean type cuz i am passing bool value, not object as D does)
-        todoItem = !todoItem;
+        const {todosData} = this.state;
+        const todoItemPosition: number = todosData.findIndex((t: any) => t.title === todoItem.title);
+        todoItem.isDone = !todoItem.isDone;
+        console.log(todoItemPosition);
+        const newTodosData = todosData.map((t, i) => i === todoItemPosition ? todoItem : t);
 
+        this.setState({
+            todosData: newTodosData
+        })
     }
 
     handleFilterChange(newFilter: TodoFilter) {
