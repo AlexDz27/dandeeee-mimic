@@ -5,7 +5,7 @@ import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
 ReactDOM.render(
-  <App url="http://localhost:9000" pollInterval={2000} />,
+  <App url="http://localhost:9000" />, // pollInterval={2000}
   document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();

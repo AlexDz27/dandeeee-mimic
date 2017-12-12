@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {Component} from "react";
 import {ITodoItemProps} from "./AllTodos";
+import {Link} from "react-router-dom";
 
 export interface ITodoItemStates {
     isDone: boolean
@@ -19,7 +20,7 @@ export default class TodoItem extends Component<ITodoItemProps, ITodoItemStates>
         return(
             <div className="TodoItem">
                 <input onChange={() => this.toggleTodoItem()} checked={oneTodoData.isDone} type="checkbox"/>
-                <li>{oneTodoData.title}</li>
+                <li><Link to={`todos/${oneTodoData._id}`}>{oneTodoData.title}</Link></li>
             </div>
         )
     }
