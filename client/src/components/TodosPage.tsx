@@ -20,15 +20,21 @@ export default class TodosPage extends Component<any, any> {
     render() {
         const {todosData, filter, handleAddTodo, handleTodoToggle, handleFilterChange} = this.props;
 
-        return(
-            <div>
-            <Header/>
-            <TodosPane>
-                <AddTodo onAddTodo={(newTodo: any) => handleAddTodo(newTodo)} />
-                <AllTodos todosData={todosData} filter={filter} onTodoToggle={(todoItem: TodoItem) => handleTodoToggle(todoItem)} />
-                <Footer todosData={todosData} filter={filter} onFilterChange={(newFilter: TodoFilter) => handleFilterChange(newFilter)} />
-            </TodosPane>
-            </div>
-        )
+        if (todosData.length !== 0) {
+
+            return(
+                <div>
+                <Header/>
+                <TodosPane>
+                    <AddTodo onAddTodo={(newTodo: any) => handleAddTodo(newTodo)} />
+                    <AllTodos todosData={todosData} filter={filter} onTodoToggle={(todoItem: TodoItem) => handleTodoToggle(todoItem)} />
+                    <Footer todosData={todosData} filter={filter} onFilterChange={(newFilter: TodoFilter) => handleFilterChange(newFilter)} />
+                </TodosPane>
+                </div>
+            )
+
+        } else {
+            return <h1>Loading...</h1>
+        }
     }
 }

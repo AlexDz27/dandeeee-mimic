@@ -6,18 +6,10 @@ const Todo = require('../models/todoModel');
 
 router.get('/', todoController.all_todos);
 
+router.get('/:id', todoController.one_todo);
+
 router.post('/', todoController.create_todo);
-// router.route("/")
-//     .post((req, res) => {
-//         const newTodo = new Todo({
-//             title: req.body.title,
-//             isDone: false
-//         })
-//         newTodo.save(err => {
-//             if (err) res.send(err)
-//
-//             res.send('Added')
-//         })
-//     })
+
+router.put('/:id', todoController.toggle_todo);
 
 module.exports = router;

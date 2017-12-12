@@ -8,6 +8,7 @@ import './App.css';
 
 import axios from 'axios';
 import AppRouter from "./AppRouter";
+/** import API from "./API" **/
 
 export enum TodoFilter {ALL, DONE, TODO}
 
@@ -23,8 +24,7 @@ class TodoItem {
 
 interface IAppStates {
     todosData: Array<TodoItem>,
-    filter: TodoFilter,
-    newTodo: string
+    filter: TodoFilter
 }
 
 export interface IAppRouterProps {
@@ -42,7 +42,6 @@ export default class App extends React.Component<any, IAppStates> {
         this.state = {
             todosData: [],
             filter: TodoFilter.ALL,
-            newTodo: "" /** po idee mozhno vashe ubrat' **/
         };
 
         this.loadTodosDataFromServer = this.loadTodosDataFromServer.bind(this);
@@ -52,8 +51,16 @@ export default class App extends React.Component<any, IAppStates> {
         const newTodoObj: any = new TodoItem(newTodo)
 
         axios.post(this.props.url, newTodoObj)
-            .then( () => this.setState({ todosData: [...this.state.todosData, newTodoObj] }) )
-            .catch((err) => console.error(err))
+            // .then( () => this.setState({ todosData: [...this.state.todosData, newTodoObj] }) )
+            .then( () => {
+                this.setState({
+                    todosData: [...this.state.todosData, newTodoObj]
+                })
+                this.loadTodosDataFromServer()
+            } )
+            // .then(this.loadTodosDataFromServer())
+            .catch((err: any) => console.error(err))
+
     }
 
     /**  (!) todoItem here is oneTodoData prop from TodoItem component
@@ -71,6 +78,10 @@ export default class App extends React.Component<any, IAppStates> {
         /** (!)
          * Как-то обошелся без findIndex, хз правильно ли это. Но всё работает, как надо.
          **/
+        axios.put(`${this.props.url}/${todoItem._id}`, todoItem)
+            .catch(err => console.log(err))
+
+
         this.setState({
             todosData: this.state.todosData
         })
@@ -91,9 +102,14 @@ export default class App extends React.Component<any, IAppStates> {
             })
     }
 
-    componentDidMount() {
-        this.loadTodosDataFromServer();
-     /** add later   setInterval(this.loadTodosDataFromServer, this.props.pollInterval) **/
+    componentWillMount() {
+        // this.loadTodosDataFromServer();
+        setTimeout(this.loadTodosDataFromServer, 1000)
+        /** todo: API access layer **/
+        // API.loadTodosDataFromServer().then(res => res.data) {
+        //
+        // }
+        // setInterval(this.loadTodosDataFromServer, this.props.pollInterval)
     }
 
   render() {
