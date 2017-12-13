@@ -1,14 +1,10 @@
 import * as React from 'react';
 import './App.css';
-// import Header from "./components/Header";
-// import TodosPane from "./components/TodosPane";
-// import Footer from "./components/Footer";
-// import AddTodo from "./components/AddTodo";
-// import AllTodos from "./components/AllTodos";
+
 
 import axios from 'axios';
 import AppRouter from "./AppRouter";
-/** import API from "./API" **/
+// import API from "./API"
 
 export enum TodoFilter {ALL, DONE, TODO}
 
@@ -79,7 +75,14 @@ export default class App extends React.Component<any, IAppStates> {
          * Как-то обошелся без findIndex, хз правильно ли это. Но всё работает, как надо.
          **/
         axios.put(`${this.props.url}/${todoItem._id}`, todoItem)
+            .then(res => console.log(todoItem))
+            // .then(res => res.data.isDone = !res.data.isDone)
             .catch(err => console.log(err))
+
+        // axios.put(`${this.props.url}/${todoItem._id}`)
+        //     .then(res => console.log(res))
+        //     .then(res => todoItem.isDone = !todoItem.isDone)
+        //     .catch(err => console.log(err))
 
 
         this.setState({
@@ -110,6 +113,7 @@ export default class App extends React.Component<any, IAppStates> {
         //
         // }
         // setInterval(this.loadTodosDataFromServer, this.props.pollInterval)
+        // API.loadTodosDataFromServer(this.props.url).then(res => this.setState({todosData: res.data}))
     }
 
   render() {
@@ -126,12 +130,3 @@ export default class App extends React.Component<any, IAppStates> {
     );
   }
 }
-
-/**
- <Header/>
- <TodosPane>
- <AddTodo onAddTodo={(newTodo: any) => this.handleAddTodo(newTodo)} />
- <AllTodos todosData={todosData} filter={filter} onTodoToggle={(todoItem: TodoItem) => this.handleTodoToggle(todoItem)} />
- <Footer todosData={todosData} filter={filter} onFilterChange={(newFilter: TodoFilter) => this.handleFilterChange(newFilter)} />
- </TodosPane>
- **/

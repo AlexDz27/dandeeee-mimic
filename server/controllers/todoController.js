@@ -33,11 +33,15 @@ exports.toggle_todo = (req, res) => {
     Todo.findById(req.params.id, (err, toggledTodo) => {
         if (err) return err;
 
-        toggledTodo.isDone = !toggledTodo.isDone
+        toggledTodo.isDone = !toggledTodo.isDone;
+
         toggledTodo.save(err => {
             if (err) res.send(err)
-
-            console.log({msg: "Updated", obj: toggledTodo})
         })
+
+        res.json(toggledTodo)
+
+        // toggledTodo.isDone = !toggledTodo.isDone
+
     })
 }
