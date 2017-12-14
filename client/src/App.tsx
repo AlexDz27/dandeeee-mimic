@@ -4,7 +4,7 @@ import './App.css';
 
 import axios from 'axios';
 import AppRouter from "./AppRouter";
-// import API from "./API"
+import API from "./API"
 
 export enum TodoFilter {ALL, DONE, TODO}
 
@@ -44,15 +44,19 @@ export default class App extends React.Component<any, IAppStates> {
     }
 
     handleAddTodo(newTodo: string) {
+        debugger
         const newTodoObj: any = new TodoItem(newTodo)
-
+        debugger
         axios.post(this.props.url, newTodoObj)
+
             // .then( () => this.setState({ todosData: [...this.state.todosData, newTodoObj] }) )
-            .then( () => {
+            .then( (responseData: any) => { /** responseData - res.json from server **/
+                debugger
+                // debugger
                 this.setState({
-                    todosData: [...this.state.todosData, newTodoObj]
+                    todosData: [...this.state.todosData, (responseData.data.obj) as TodoItem]
                 })
-                this.loadTodosDataFromServer()
+                // this.loadTodosDataFromServer()
             } )
             // .then(this.loadTodosDataFromServer())
             .catch((err: any) => console.error(err))
@@ -107,13 +111,16 @@ export default class App extends React.Component<any, IAppStates> {
 
     componentWillMount() {
         // this.loadTodosDataFromServer();
-        setTimeout(this.loadTodosDataFromServer, 1000)
+        // setTimeout(this.loadTodosDataFromServer, 1000)
         /** todo: API access layer **/
         // API.loadTodosDataFromServer().then(res => res.data) {
         //
         // }
         // setInterval(this.loadTodosDataFromServer, this.props.pollInterval)
-        // API.loadTodosDataFromServer(this.props.url).then(res => this.setState({todosData: res.data}))
+        API.loadTodosDataFromServer(this.props.url)
+            .then((res: any) => {
+                this.setState({todosData: res.data})
+            })
     }
 
   render() {

@@ -18,13 +18,16 @@ exports.one_todo = (req, res, next) => {
 
 
 exports.create_todo = (req, res) => {
+    debugger
+    console.log(req.body);
     const newTodo = new Todo({
         title: req.body.title,
         isDone: false
     })
+    debugger
     newTodo.save(err => {
         if (err) res.send(err)
-
+        debugger
         res.json({msg: "Addded", obj: newTodo})
     })
 }
